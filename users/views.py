@@ -13,7 +13,7 @@ from django.contrib.auth import authenticate, login, logout
 
 def homepage(request):
 
-    return render(request, 'index.html')
+    return render(request, 'home.html')
 
 
 
@@ -30,7 +30,7 @@ def register(request):
 
             form.save()
 
-            return redirect("my-login")
+            return redirect("login")
 
 
     context = {'registerform':form}
@@ -63,7 +63,7 @@ def my_login(request):
 
     context = {'loginform':form}
 
-    return render(request, 'my-login.html', context=context)
+    return render(request, 'login.html', context=context)
 
 
 def user_logout(request):
