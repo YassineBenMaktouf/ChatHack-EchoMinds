@@ -50,8 +50,8 @@ def my_login(request):
             if user is not None:
 
                 auth.login(request, user)
-
-                return redirect("chatai")
+                external_url = "https://finassist-ai-5baa4992e181.herokuapp.com"
+                return redirect(external_url)
 
 
     context = {'loginform':form}
