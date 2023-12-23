@@ -9,7 +9,7 @@ https://docs.djangoproject.com/en/5.0/topics/settings/
 For the full list of settings and their values, see
 https://docs.djangoproject.com/en/5.0/ref/settings/
 """
-
+import os
 from pathlib import Path
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
@@ -132,3 +132,18 @@ STATICFILES_DIRS=[
 
 
 OPENAI_API_KEY="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"
+
+
+
+
+# other settings...
+
+STATIC_URL = '/static/'
+
+# Add the STATIC_ROOT configuration
+STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
+
+# Ensure you have this set as well, particularly if you have static files in multiple locations
+STATICFILES_DIRS = [
+    os.path.join(BASE_DIR, 'static'),
+]
