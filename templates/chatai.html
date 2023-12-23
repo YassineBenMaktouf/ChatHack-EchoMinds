@@ -1,0 +1,204 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<a href="{% url 'user-logout' %}"> Logout here </a>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Excel File Analysis</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            text-align: center;
+            background-color: #f5f5f5;
+            margin: 0;
+            padding: 0;
+        }
+
+        h1 {
+            color: #333;
+        }
+
+        form {
+            margin-bottom: 20px;
+        }
+
+        input[type="file"] {
+            display: block;
+            margin: 10px auto;
+        }
+
+        input[type="submit"] {
+            background-color: #4CAF50;
+            color: white;
+            padding: 10px 20px;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+        }
+
+        input[type="submit"]:hover {
+            background-color: #45a049;
+        }
+
+        .container {
+            width: 80%;
+            margin: auto;
+            background-color: #fff;
+            padding: 20px;
+            border-radius: 5px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            margin-top: 20px;
+        }
+
+        img {
+            margin-top: 20px;
+            max-width: 100%;
+            height: auto;
+        }
+
+        a {
+            background-color: #008CBA;
+            color: white;
+            padding: 10px 20px;
+            text-decoration: none;
+            display: inline-block;
+            border-radius: 4px;
+        }
+
+        a:hover {
+            background-color: #005f6a;
+        }
+
+        .summary {
+            background-color: #f2f2f2;
+            padding: 10px;
+            border-radius: 5px;
+            margin-top: 20px;
+        }
+
+        .ai-analysis {
+            border: 1px solid #ddd;
+            background-color: #f9f9f9;
+            padding: 20px;
+            margin-top: 20px;
+            text-align: left;
+        }
+
+        .chat-container {
+            display: none;
+            position: fixed;
+            bottom: 10px;
+            right: 10px;
+            background: white;
+            border: 1px solid #ddd;
+            padding: 10px;
+            border-radius: 5px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            width: 300px;
+        }
+
+        #chat-box {
+            height: 400px;
+            overflow-y: auto;
+            margin-bottom: 10px;
+            border-bottom: 1px solid #ddd;
+        }
+
+        #chat-input {
+            width: calc(100% - 110px);
+            padding: 8px;
+            margin-right: 10px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            float: left;
+        }
+
+        #send-btn {
+            background-color: #4CAF50;
+            color: white;
+            border: none;
+            padding: 8px 15px;
+            border-radius: 4px;
+            cursor: pointer;
+            float: right;
+        }
+
+        #send-btn:hover {
+            background-color: #45a049;
+        }
+
+        .chat-btn {
+            background-color: #008CBA;
+            color: white;
+            padding: 10px 20px;
+            text-decoration: none;
+            display: inline-block;
+            border-radius: 4px;
+            margin-top: 20px;
+        }
+
+        .chat-btn:hover {
+            background-color: #005f6a;
+        }
+    </style>
+</head>
+<!-- analysis_app/templates/index.html -->
+<body>
+    <div class="container">
+        <h1>Upload Excel File for Analysis</h1>
+        <form method="post" enctype="multipart/form-data">
+            {% csrf_token %}
+            <input type="file" name="file" accept=".xlsx, .xls" required>
+            <input type="submit" value="Analyze">
+        </form>
+        {% if result %}
+            <h2>Analysis Results</h2>
+            <img src="{{ result.plot_url }}" alt="Cumulative Profit/Loss Plot">
+            <img src="{{ result.pie_chart_url }}" alt="Financial Distribution">
+            <div>
+                <h3>Summary:</h3>
+                {{ result.summary_html | safe }}
+            </div>
+            <div>
+                <h3>AI Analysis:</h3>
+                <p>{{ result.ai_analysis }}</p>
+            </div>
+            <div>
+                <a href="{{ result.file_url }}" download="analyzed_data.xlsx">Download Analyzed Data</a>
+            </div>
+        {% endif %}
+    </div>
+    <div class="chat-container" id="chat-container">
+        <div id="chat-box"></div>
+        <input type="text" id="chat-input" placeholder="Type your message...">
+        <button id="send-btn" onclick="sendMessage()">Send</button>
+    </div>
+    <button class="chat-btn" onclick="toggleChat()">Chat with AI</button>
+    <script type="text/javascript">
+        function toggleChat() {
+            var chatContainer = document.getElementById('chat-container');
+            chatContainer.style.display = chatContainer.style.display === 'none' ? 'block' : 'none';
+        }
+        function sendMessage() {
+            var input = document.getElementById('chat-input');
+            var message = input.value;
+            input.value = '';
+            if(message) {
+                document.getElementById('chat-box').innerHTML += '<div>You: ' + message + '</div>';
+                fetch('{% url 'chat' %}', {
+                    method: 'POST',
+                    body: JSON.stringify({'message': message}),
+                    headers: {'Content-Type': 'application/json'}
+                })
+                .then(response => response.json())
+                .then(data => {
+                    document.getElementById('chat-box').innerHTML += '<div>AI: ' + data.response + '</div>';
+                    var chatBox = document.getElementById('chat-box');
+                    chatBox.scrollTop = chatBox.scrollHeight;
+                });
+            }
+        }
+    </script>
+</body>
+</html>

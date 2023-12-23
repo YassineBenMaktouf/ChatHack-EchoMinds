@@ -37,7 +37,9 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-    "echoMinds"
+    "echoMinds",
+    "chatai",
+    "users",
 ]
 
 MIDDLEWARE = [
@@ -127,3 +129,6 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 STATICFILES_DIRS=[
     BASE_DIR / 'static'
 ]
+
+
+OPENAI_API_KEY="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"

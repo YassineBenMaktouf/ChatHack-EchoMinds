@@ -11,13 +11,6 @@ from django.contrib.auth.models import auth
 from django.contrib.auth import authenticate, login, logout
 
 
-def homepage(request):
-
-    return render(request, 'home.html')
-
-
-
-
 def register(request):
 
     form = CreateUserForm()
@@ -58,7 +51,7 @@ def my_login(request):
 
                 auth.login(request, user)
 
-                return redirect("dashboard")
+                return redirect("chatai")
 
 
     context = {'loginform':form}
@@ -70,14 +63,7 @@ def user_logout(request):
 
     auth.logout(request)
 
-    return redirect("")
-
-
-
-@login_required(login_url="my-login")
-def dashboard(request):
-
-    return render(request, 'dashboard.html')
+    return redirect("home")
 
 
 
