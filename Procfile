@@ -1,1 +1,1 @@
-web: gunicorn ChatHack-EchoMinds.wsgi --log-file -
+web: gunicorn chatbot.wsgi --log-file -
