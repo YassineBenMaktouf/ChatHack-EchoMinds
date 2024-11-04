@@ -4,7 +4,7 @@
 ## Introduction
 Echo Minds is an interactive platform that combines real-time data analysis with an intelligent chatbot. With the ability to process Excel files and provide insightful analytics, Echo Minds integrates a smart conversational agent to enhance user experience and knowledge discovery.
 
-## Getting Started🚀
+## Getting Started🚀 
 
 ### Prerequisites
 - Python 3.x
@@ -48,7 +48,7 @@ python manage.py runserver
 
 ## Support
 
-For support, please open an issue in the repository or contact echomindsteam@gmail.com
+For support, please open an issue in the repository or contact us on echomindsteam@gmail.com
 
 
 ## Contributions
